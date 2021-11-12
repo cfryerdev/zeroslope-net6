@@ -1,0 +1,23 @@
+FakesAssemblies
+Domain/_ReSharper.Domain
+Infrastructure/_ReSharper.Infrastructure
+ODS/MessageQueue/MessageQueue.local.rgavrilov.publish.xml
+ODS/Stage/Stage.local.rgavrilov.publish.xml
+Build Projects/Application
+Build Projects/Database
+.paket/paket.exe
+**/node_modules
+**/bin
+**/obj
+.vs
+packages
+**/UpgradeLog.htm
+**/Logs
+dist
+build
+pkg
+*.user
+*.jfm
+Backup
+/package-lock.json
+**/wwwroot/definition.json
