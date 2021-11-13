@@ -1,22 +1,33 @@
 ﻿using Microsoft.Extensions.Options;
+using System.Text.Json;
 using ZeroSlope.Composition;
+using ZeroSlope.Infrastructure.Exceptions;
 
 namespace ZeroSlope.Api.Middleware
 {
 	public class HandledResultMiddleware
 	{
 		private readonly RequestDelegate _next;
-		private readonly ContainerOptions _apiSettings;
 
-		public HandledResultMiddleware(RequestDelegate next, IOptions<ContainerOptions> options)
+		public HandledResultMiddleware(RequestDelegate next)
 		{
 			_next = next;
-			_apiSettings = options.Value;
 		}
 
 		public async Task Invoke(HttpContext context)
 		{
-			await _next.Invoke(context);
+			try
+            {
+				await _next.Invoke(context);
+			}
+			catch (Exception ex)
+            {
+				var response = context.Response;
+				response.ContentType = "application/json";
+				var error = new HandledResult<Exception>(ex).HandleException();
+				var result = JsonSerializer.Serialize(error);
+				await response.WriteAsync(result);
+			}
 		}
 	}
 }
