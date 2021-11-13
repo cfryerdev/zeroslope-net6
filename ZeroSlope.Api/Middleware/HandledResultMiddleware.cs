@@ -22,9 +22,10 @@ namespace ZeroSlope.Api.Middleware
 			}
 			catch (Exception ex)
             {
+				var error = new HandledResult<Exception>(ex).HandleException();
 				var response = context.Response;
 				response.ContentType = "application/json";
-				var error = new HandledResult<Exception>(ex).HandleException();
+				response.StatusCode = error.StatusCode;
 				var result = JsonSerializer.Serialize(error);
 				await response.WriteAsync(result);
 			}

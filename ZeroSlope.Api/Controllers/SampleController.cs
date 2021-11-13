@@ -69,7 +69,7 @@ namespace ZeroSlope.Api.Controllers
 		/// This is a sample error.
 		/// </summary>
 		/// <returns></returns>
-		[HttpGet, Route("SampleError")]
+		[HttpGet, Route("SampleError"), AllowAnonymous]
 		public object SampleError()
 		{
 			return _Service.SampleError();

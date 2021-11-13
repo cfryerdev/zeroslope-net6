@@ -8,8 +8,6 @@ namespace ZeroSlope.Infrastructure.Exceptions
 {
 	public class HandledResult<T> where T : Exception
 	{
-		private const string BadRequestDescriptor = "Bad Request";
-
 		public T Exception { get; set; }
 
 		public HttpStatusCode StatusCode { get; set; }
@@ -41,7 +39,6 @@ namespace ZeroSlope.Infrastructure.Exceptions
 					response = new HandledResponseModel()
 					{
 						StatusCode = (int)ex.StatusCode,
-						Descriptor = BadRequestDescriptor,
 						Exceptions = ToExResponse(ex)
 					};
 				}),
@@ -51,7 +48,6 @@ namespace ZeroSlope.Infrastructure.Exceptions
 					response = new HandledResponseModel()
 					{
 						StatusCode = (int)ex.StatusCode,
-						Descriptor = BadRequestDescriptor,
 						Exceptions = ToExResponse(ex)
 					};
 				}),
@@ -61,7 +57,6 @@ namespace ZeroSlope.Infrastructure.Exceptions
 					response = new HandledResponseModel()
 					{
 						StatusCode = (int)HttpStatusCode.InternalServerError,
-						Descriptor = BadRequestDescriptor,
 						Exceptions = ToExResponse(ex)
 					};
 				}),

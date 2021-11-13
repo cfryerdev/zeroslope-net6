@@ -15,8 +15,6 @@ namespace ZeroSlope.Infrastructure.Exceptions
 
 		public int StatusCode { get; set; }
 
-		public string Descriptor { get; set; }
-
 		public List<HandledResponseError> Exceptions { get; set; }
 
 	}
