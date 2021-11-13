@@ -26,38 +26,38 @@ Coming soon.
 
 ### Solution Structure ###
 ```
-├─── 📁 Documentation					>
+├─── 📁 Documentation
 │   
-├─── 📁 Infrastructure					> 
-│   ├─── #️ ZeroSlope.Composition        > 
-│   └─── #️ ZeroSlope.Infrastructure     > 
+├─── 📁 Infrastructure
+│   ├─── #️ ZeroSlope.Composition
+│   └─── #️ ZeroSlope.Infrastructure
 │   
-├─── 📁 Testing							> 
-│   ├─── #️ ZeroSlope.Api.Tests          > 
-│   └─── #️ ZeroSlope.Domain.Tests       > 
+├─── 📁 Testing
+│   ├─── #️ ZeroSlope.Api.Tests
+│   └─── #️ ZeroSlope.Domain.Tests
 │   
-├─── 🗃️ ZeroSlope.Database				> 
-│   ├─── 📁 Scripts						> 
-│   └─── 📁 Schemas						> 
+├─── 🗃️ ZeroSlope.Database
+│   ├─── 📁 Scripts
+│   └─── 📁 Schemas
 │   
-├─── #️ ZeroSlope.Models					> Redistributable assembly used with the API
-│   └─── 📁 Authentication				> 
-│        ├─── 📁 Requests				> Request models for Authentication
-│        └─── 📁 Responses				> Response models for Authentication
+├─── #️ ZeroSlope.Models
+│   └─── 📁 Authentication
+│        ├─── 📁 Requests
+│        └─── 📁 Responses
 │   
-├─── #️ ZeroSlope.Domain					> 
-│   ├─── 📁 Base						> Any base classes used
-│   ├─── 📁 Entities					> All database entities used with Dapper
-│   ├─── 📁 Mappers						> Any mappers to convert objects to different types
-│   └─── 📁 Services					> All the business logic using service classes
+├─── #️ ZeroSlope.Domain
+│   ├─── 📁 Base
+│   ├─── 📁 Entities
+│   ├─── 📁 Mappers
+│   └─── 📁 Services
 │   
-└─── #️ ZeroSlope.Api                    > 
-    ├─── 📁 Controllers					> 
-    ├─── 📁 Middleware					> 
-    ├─── #️ appsettings.json             > 
-    ├─── #️ Dockerfile					> 
-    ├─── #️ Program.cs					> 
-    └─── #️ Usings.cs					> 
+└─── #️ ZeroSlope.Api
+    ├─── 📁 Controllers
+    ├─── 📁 Middleware
+    ├─── 📄 appsettings.json
+    ├─── 📄 Dockerfile
+    ├─── 📄 Program.cs
+    └─── 📄 Usings.cs
 ```
 
 
