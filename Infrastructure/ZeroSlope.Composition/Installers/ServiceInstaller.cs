@@ -1,12 +1,13 @@
-﻿using Autofac;
+﻿using Scrutor;
 using ZeroSlope.Domain;
 using System.Reflection;
 using ZeroSlope.Domain.Base;
 using ZeroSlope.Infrastructure.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ZeroSlope.Composition.Installers
 {
-	public class ServiceInstaller : IBuilder
+	public class ServiceInstaller
 	{
 		private readonly ContainerOptions _options;
 
@@ -15,15 +16,13 @@ namespace ZeroSlope.Composition.Installers
 			_options = options;
 		}
 
-		public void Install(ContainerBuilder builder)
+		public void Install(ITypeSourceSelector scan)
 		{
 			var ServiceAssembly = typeof(Init).GetTypeInfo().Assembly;
-
-			builder
-				.RegisterAssemblyTypes(ServiceAssembly)
-				.Where(t => typeof(BaseService).IsAssignableFrom(t))
+			scan.FromAssemblyOf<ZeroSlope.Domain.Init>()
+				.AddClasses(classes => classes.AssignableTo<ZeroSlope.Domain.Base.BaseService>())
 				.AsSelf()
-				.InstancePerDependency();
+				.WithScopedLifetime();
 		}
 	}
 }

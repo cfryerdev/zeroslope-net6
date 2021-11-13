@@ -7,9 +7,10 @@ using Serilog;
 using ZeroSlope.Infrastructure.Exceptions;
 using ZeroSlope.Domain.Base;
 using System.Linq;
-using ZeroSlope.Domain.BindingModels;
 using ZeroSlope.Domain.Entities;
 using Dapper.Contrib.Extensions;
+using ZeroSlope.Models.Sample.Responses;
+using ZeroSlope.Models.Sample.Requests;
 
 namespace ZeroSlope.Domain.Services
 {
@@ -22,21 +23,21 @@ namespace ZeroSlope.Domain.Services
 			Connection = connection;
 		}
 
-		public List<SampleEntityBindingModel> List()
+		public List<SampleResponse> List()
 		{
 			var collection = Connection.GetAll<SampleEntity>().ToList();
-			return Mapper.Map<List<SampleEntity>, List<SampleEntityBindingModel>>(collection);
+			return Mapper.Map<List<SampleEntity>, List<SampleResponse>>(collection);
 		}
 
-		public SampleEntityBindingModel Read(int id)
+		public SampleResponse Read(int id)
 		{
 			var model = Connection.Get<SampleEntity>(id);
-			return Mapper.Map<SampleEntity, SampleEntityBindingModel>(model);
+			return Mapper.Map<SampleEntity, SampleResponse>(model);
 		}
 
-		public SampleEntityBindingModel Save(SampleEntityBindingModel bindingModel)
+		public SampleResponse Save(SampleRequest bindingModel)
 		{
-			var model = Mapper.Map<SampleEntityBindingModel, SampleEntity>(bindingModel);
+			var model = Mapper.Map<SampleRequest, SampleEntity>(bindingModel);
 			if (model.Id == default(int))
 			{
 				var identity = (int)Connection.Insert(model);
@@ -46,7 +47,7 @@ namespace ZeroSlope.Domain.Services
 			{
 				Connection.Update(model);
 			}
-			return Mapper.Map<SampleEntity, SampleEntityBindingModel>(model);
+			return Mapper.Map<SampleEntity, SampleResponse>(model);
 		}
 
 		public void Delete(int id)
@@ -58,9 +59,9 @@ namespace ZeroSlope.Domain.Services
 			}
 		}
 
-		public void Delete(SampleEntityBindingModel bindingModel)
+		public void Delete(SampleRequest bindingModel)
 		{
-			var model = Mapper.Map<SampleEntityBindingModel, SampleEntity>(bindingModel);
+			var model = Mapper.Map<SampleRequest, SampleEntity>(bindingModel);
 			Connection.Delete(model);
 		}
 

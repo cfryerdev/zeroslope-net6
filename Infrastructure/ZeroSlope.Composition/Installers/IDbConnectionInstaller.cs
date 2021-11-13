@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using Scrutor;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -16,12 +17,10 @@ namespace ZeroSlope.Composition.Installers
 			_options = options;
 		}
 
-		public void Install(ContainerBuilder builder)
+		public void Install(IServiceCollection serviceCollection)
 		{
-			var connection = new SqlConnection(_options.Database.SqlConnectionString);
-			builder
-				.RegisterInstance<IDbConnection>(connection)
-				.SingleInstance();
-		}
+            var connection = new SqlConnection(_options.Database.SqlConnectionString);
+			serviceCollection.AddSingleton<IDbConnection>(connection);
+        }
 	}
 }

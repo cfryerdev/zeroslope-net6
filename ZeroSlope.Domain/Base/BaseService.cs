@@ -15,6 +15,7 @@ namespace ZeroSlope.Domain.Base
 		}
 
 		public IMapper Mapper { get; set; }
+
 		public ILogger Logger { get; set; }
 	}
 }

@@ -1,7 +1,6 @@
 ﻿using ZeroSlope.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using ZeroSlope.Domain.BindingModels;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 

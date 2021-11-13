@@ -1,9 +1,10 @@
 ﻿using ZeroSlope.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using ZeroSlope.Domain.BindingModels;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
+using ZeroSlope.Models.Sample.Responses;
+using ZeroSlope.Models.Sample.Requests;
 
 namespace ZeroSlope.Api.Controllers
 {
@@ -27,7 +28,7 @@ namespace ZeroSlope.Api.Controllers
 		/// </summary>
 		/// <returns></returns>
 		[HttpGet, Route("")]
-		public List<SampleEntityBindingModel> List()
+		public List<SampleResponse> List()
 		{
 			return _Service.List();
 		}
@@ -38,7 +39,7 @@ namespace ZeroSlope.Api.Controllers
 		/// <param name="id">The identifier.</param>
 		/// <returns></returns>
 		[HttpGet, Route("{id}")]
-		public SampleEntityBindingModel Read(int id)
+		public SampleResponse Read(int id)
 		{
 			return _Service.Read(id);
 		}
@@ -49,7 +50,7 @@ namespace ZeroSlope.Api.Controllers
 		/// <param name="bindingModel">The binding model.</param>
 		/// <returns></returns>
 		[HttpPost, HttpPut, Route("")]
-		public SampleEntityBindingModel Save(SampleEntityBindingModel bindingModel)
+		public SampleResponse Save(SampleRequest bindingModel)
 		{
 			return _Service.Save(bindingModel);
 		}

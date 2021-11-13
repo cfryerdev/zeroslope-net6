@@ -1,10 +1,11 @@
-﻿using Autofac;
+﻿using Scrutor;
 using AutoMapper;
+using Microsoft.Extensions.DependencyInjection;
 using ZeroSlope.Infrastructure.Interfaces;
 
 namespace ZeroSlope.Composition.Installers
 {
-	public class MapperInstaller : IBuilder
+	public class MapperInstaller
 	{
 		private readonly ContainerOptions _options;
 
@@ -13,18 +14,11 @@ namespace ZeroSlope.Composition.Installers
 			_options = options;
 		}
 
-		public void Install(ContainerBuilder builder)
+		public void Install(IServiceCollection serviceCollection)
 		{
-			var configuration = new MapperConfiguration(cfg =>
-			{
-				
-			});
-
+			var configuration = new MapperConfiguration(cfg =>{});
 			var mapper = new Mapper(configuration);
-
-			builder
-				.RegisterInstance<IMapper>(mapper)
-				.SingleInstance();
+			serviceCollection.AddSingleton<IMapper>(mapper);
 		}
 	}
 }

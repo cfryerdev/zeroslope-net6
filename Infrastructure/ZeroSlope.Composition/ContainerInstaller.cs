@@ -1,9 +1,9 @@
-﻿using Autofac;
-using Autofac.Core;
+﻿using Scrutor;
 using ZeroSlope.Infrastructure.Interfaces;
 using ZeroSlope.Composition.Installers;
 using System;
 using System.Collections.Generic;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ZeroSlope.Composition
 {
@@ -16,33 +16,13 @@ namespace ZeroSlope.Composition
 			_options = options;
 		}
 
-		public ContainerBuilder Install()
+		public void Install(IServiceCollection serviceCollection)
 		{
-			var builder = Blank();
+			new LoggerInstaller(_options).Install(serviceCollection);
+			new IDbConnectionInstaller(_options).Install(serviceCollection);
+			new MapperInstaller(_options).Install(serviceCollection);
 
-			new LoggerInstaller(_options).Install(builder);
-			new IDbConnectionInstaller(_options).Install(builder);
-			new MapperInstaller(_options).Install(builder);
-			new ProcessorInstaller(_options).Install(builder);
-			new ValidatorInstaller(_options).Install(builder);
-			new ServiceInstaller(_options).Install(builder);
-
-			return builder;
-		}
-
-		public ContainerBuilder Blank()
-		{
-			return new ContainerBuilder();
-		}
-
-		public ContainerBuilder Build(List<IBuilder> installers)
-		{
-			var builder = Blank();
-			foreach (var installer in installers)
-			{
-				installer.Install(builder);
-			}
-			return builder;
+			serviceCollection.Scan(scan => new ServiceInstaller(_options).Install(scan));
 		}
 	}
 }

@@ -1,21 +1,28 @@
-using Autofac;
-using Autofac.Extensions.DependencyInjection;
-using ZeroSlope.Api.Middleware;
-using ZeroSlope.Composition;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 builder.Configuration.AddEnvironmentVariables();
 
 var settings = builder.Configuration.Get<ContainerOptions>();
+builder.Services.AddSingleton<ContainerOptions>(settings);
+new ContainerInstaller(settings).Install(builder.Services);
 
-builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory(builder =>
+builder.Services.AddSingleton<ITokenService>(new TokenService());
+builder.Services.AddAuthorization();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
 {
-	builder = new ContainerInstaller(settings).Install();
-}));
+    opt.TokenValidationParameters = new()
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = settings.Token.Issuer,
+        ValidAudience = settings.Token.Audience,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(settings.Token.Secret))
+    };
+});
 
-builder.Services.AddOptions();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -33,9 +40,9 @@ app.UseCors(x => x
 	.AllowAnyHeader());
 
 app.UseMiddleware<HandledResultMiddleware>();
-app.UseMiddleware<AuthMiddleware>();
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 

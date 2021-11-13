@@ -1,17 +1,16 @@
 ﻿using ZeroSlope.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using ZeroSlope.Domain.BindingModels;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
-using ZeroSlope.Domain.BindingModels.Response;
-using ZeroSlope.Domain.BindingModels.Request;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Text;
 using ZeroSlope.Composition;
+using ZeroSlope.Models.Authentication.Requests;
+using ZeroSlope.Models.Authentication.Responses;
 
 namespace ZeroSlope.Api.Controllers
 {
@@ -19,38 +18,28 @@ namespace ZeroSlope.Api.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly ContainerOptions _options;
+        private readonly AuthService _authService;
+        private readonly ContainerOptions _settings;
 
-        public AuthController(IOptions<ContainerOptions> options)
+        public AuthController(AuthService authService, ContainerOptions settings)
         {
-            _options = options.Value;
+            _authService = authService;
+            _settings = settings;
         }
-        
+
 
         /// <summary>
-        /// Generates a JWT Token based on a client secret and client id
+        /// Generates a JWT Token based on a EmailAddress and password
         /// </summary>
         /// <returns></returns>
         [HttpPost, Route("authenticate")]
         [AllowAnonymous]
 		public TokenResponse Authenticate([FromBody] TokenRequest request)
 		{
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_options.Token.Secret);
-
-            var tokenDescriptor = new SecurityTokenDescriptor
+            return new TokenResponse()
             {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, request.ClientId.ToString()),
-                    //new Claim(ClaimTypes.Role, "Administrator")
-                }),
-                Expires = DateTime.UtcNow.AddMinutes(_options.Token.ExpirationInMinutes),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                Token = _authService.Login(_settings.Token.Secret, _settings.Token.Issuer, request.EmailAddress, request.Password)
             };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-
-            return new TokenResponse() { Token = tokenHandler.WriteToken(token) };
         }
 
 	}

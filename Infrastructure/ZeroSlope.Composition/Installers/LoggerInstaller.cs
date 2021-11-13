@@ -1,10 +1,11 @@
-﻿using Autofac;
+﻿using Scrutor;
+using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using ZeroSlope.Infrastructure.Interfaces;
 
 namespace ZeroSlope.Composition.Installers
 {
-	public class LoggerInstaller : IBuilder
+	public class LoggerInstaller
 	{
 		private readonly ContainerOptions _options;
 
@@ -13,13 +14,10 @@ namespace ZeroSlope.Composition.Installers
 			_options = options;
 		}
 
-		public void Install(ContainerBuilder builder)
+		public void Install(IServiceCollection serviceCollection)
 		{
 			var logger = new LoggerConfiguration().WriteTo.Console().CreateLogger();
-
-			builder
-				.RegisterInstance<ILogger>(logger)
-				.SingleInstance();
+			serviceCollection.AddSingleton<ILogger>(logger);
 		}
 	}
 }
