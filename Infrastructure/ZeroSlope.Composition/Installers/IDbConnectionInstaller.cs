@@ -19,8 +19,8 @@ namespace ZeroSlope.Composition.Installers
 
 		public void Install(IServiceCollection serviceCollection)
 		{
-            var connection = new SqlConnection(_options.Database.SqlConnectionString);
+            		var connection = new SqlConnection(_options.Database.SqlConnectionString);
 			serviceCollection.AddSingleton<IDbConnection>(connection);
-        }
+        	}
 	}
 }
