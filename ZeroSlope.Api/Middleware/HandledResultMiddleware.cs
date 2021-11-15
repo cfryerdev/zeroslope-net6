@@ -17,11 +17,11 @@ namespace ZeroSlope.Api.Middleware
 		public async Task Invoke(HttpContext context)
 		{
 			try
-            {
+            		{
 				await _next.Invoke(context);
 			}
 			catch (Exception ex)
-            {
+            		{
 				var error = new HandledResult<Exception>(ex).HandleException();
 				var response = context.Response;
 				response.ContentType = "application/json";
