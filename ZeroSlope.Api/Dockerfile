@@ -7,16 +7,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["zeroslope-net6/zeroslope-net6.csproj", "zeroslope-net6/"]
-RUN dotnet restore "zeroslope-net6/zeroslope-net6.csproj"
+COPY ["ZeroSlope.Api.csproj", "."]
+RUN dotnet restore "ZeroSlope.Api.csproj"
 COPY . .
-WORKDIR "/src/zeroslope-net6"
-RUN dotnet build "zeroslope-net6.csproj" -c Release -o /app/build
+WORKDIR "/src"
+RUN dotnet build "ZeroSlope.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "zeroslope-net6.csproj" -c Release -o /app/publish
+RUN dotnet publish "ZeroSlope.Api.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "zeroslope-net6.dll"]
+ENTRYPOINT ["dotnet", "ZeroSlope.Api.dll"]
