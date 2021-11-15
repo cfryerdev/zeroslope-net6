@@ -1,7 +1,7 @@
 ﻿### What is Zero Slope? ###
-ZeroSlope is a .net core micro-service scaffold with adoption and simplicity in mind. This project is meant to provide a simple and lean architecture using common industry technologies and practices. All dependencies are constructed and stored in a IoC container following the Composition Root pattern. API Documentation is auto-generated using a Swagger front-end.
+ZeroSlope is a .net6 lean micro-service project using MinimalApi with adoption and simplicity in mind. This project is meant to provide a simple and lean architecture using common industry technologies and practices. All dependencies are constructed and stored in a IoC container following the Composition Root pattern. API Documentation is auto-generated using a Swagger front-end.
 
-This implementation focuses on a Sql Server back-end using Dapper to persist.
+This implementation focuses on a Sql Server back-end using Dapper.
 
 ### Technologies ###
 * .Net 6
@@ -52,8 +52,8 @@ Coming soon.
 │   └─── 📁 Services
 │   
 └─── #️ ZeroSlope.Api
-    ├─── 📁 Controllers
     ├─── 📁 Middleware
+    ├─── 📁 Routes
     ├─── 📄 appsettings.json
     ├─── 📄 Dockerfile
     ├─── 📄 Program.cs

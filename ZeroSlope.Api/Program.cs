@@ -1,3 +1,5 @@
+using ZeroSlope.Api.Routes;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
@@ -23,9 +25,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     };
 });
 
-
-builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddCors(options => options.AddPolicy("allowAny", o => o.AllowAnyOrigin()));
 
 builder.Services.AddSwaggerGen(swagger =>
 {
@@ -62,16 +64,16 @@ if (app.Environment.IsDevelopment())
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.UseCors(x => x
-	.AllowAnyOrigin()
-	.AllowAnyMethod()
-	.AllowAnyHeader());
+app.useHealthRoutes();
+app.useAuthRoutes();
+app.useSampleRoutes();
+
+app.UseCors(x => x.AllowAnyOrigin());
 
 app.UseMiddleware<HandledResultMiddleware>();
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapControllers();
 
 app.Run();
