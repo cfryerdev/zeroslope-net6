@@ -2,7 +2,7 @@
 global using System.Text;
 global using Microsoft.OpenApi.Models;
 global using ZeroSlope.Composition.Installers;
-global using ZeroSlope.Api;
+global using ZeroSlope.Api.Routes;
 global using ZeroSlope.Api.Middleware;
 global using ZeroSlope.Composition;
 global using ZeroSlope.Infrastructure.Authentication;
