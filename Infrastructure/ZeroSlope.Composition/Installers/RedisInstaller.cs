@@ -20,17 +20,17 @@ namespace ZeroSlope.Composition.Installers
 
 		public void Install(IServiceCollection serviceCollection)
 		{
-            try
-            {
-                var connection = ConnectionMultiplexer.Connect($"{_options.Caching.RedisHost}:{_options.Caching.RedisPort}");
-                var db = connection.GetDatabase(_options.Caching.RedisDatabaseId);
-                serviceCollection.AddSingleton<IConnectionMultiplexer>(connection);
-                serviceCollection.AddSingleton<IDatabase>(db);
-            }
-            catch (Exception ex)
-            {
-                throw new HandledException(ExceptionType.Service, ex.Message);
-            }
-        }
+            		try
+            		{
+                		var connection = ConnectionMultiplexer.Connect($"{_options.Caching.RedisHost}:{_options.Caching.RedisPort}");
+                		var db = connection.GetDatabase(_options.Caching.RedisDatabaseId);
+                		serviceCollection.AddSingleton<IConnectionMultiplexer>(connection);
+                		serviceCollection.AddSingleton<IDatabase>(db);
+            		}
+            		catch (Exception ex)
+            		{		
+                		throw new HandledException(ExceptionType.Service, ex.Message);
+            		}
+        	}
 	}
 }
